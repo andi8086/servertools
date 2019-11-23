@@ -3,13 +3,13 @@ DISKORDER="sdo sdq sdk sdp sdg sdi sdf sdh sdb sda sdd sdc sdn sdl sdj sdm"
 DISKCOLS=4
 
 j=0
-
 for d in $DISKORDER; do
 	j=$((j+1))
 	echo -n "     $d       "
 	[[ $((j % $DISKCOLS)) == 0 ]] && echo && echo
 done
 
+j=0
 for d in $DISKORDER; do
 	j=$((j+1))
 	SERIAL=$(lsblk -o KNAME,SERIAL | grep $d | head -n1 | awk '{print $2}')
@@ -23,6 +23,8 @@ for d in $DISKORDER; do
 	[[ $((j % $DISKCOLS)) == 0 ]] && echo && echo
 done
 echo -n -e "\e[0m"
+
+j=0
 for d in $DISKORDER; do
 	j=$((j+1))
 	CELSIUS=$(smartctl -a /dev/$d | grep ^194 | awk '{print $10}')
